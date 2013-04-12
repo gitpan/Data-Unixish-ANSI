@@ -1,0 +1,32 @@
+NAME
+    Data::Unixish::ansi - dux functions related to text containing ANSI
+    codes
+
+VERSION
+    version 0.01
+
+SYNOPSIS
+DESCRIPTION
+SEE ALSO
+    Data::Unixish
+
+    dux
+
+    Text::ANSI::Util
+
+    Term::ANSIColor
+
+    Term::ANSIScreen
+
+AUTHOR
+    Steven Haryanto <stevenharyanto@gmail.com>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2013 by Steven Haryanto.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
+FUNCTIONS
+    None are exported by default, but they are exportable.
+

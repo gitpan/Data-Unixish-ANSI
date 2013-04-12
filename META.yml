@@ -1,0 +1,25 @@
+---
+abstract: 'dux functions related to text containing ANSI codes'
+author:
+  - 'Steven Haryanto <stevenharyanto@gmail.com>'
+build_requires:
+  Module::Build: 0.3601
+configure_requires:
+  Module::Build: 0.3601
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Data-Unixish-ansi
+requires:
+  Data::Unixish::Util: 1.29
+  Log::Any: 0
+  Text::ANSI::Util: 0
+  Unixish: v1.0.1
+  perl: 5.010001
+resources:
+  homepage: http://metacpan.org/release/Data-Unixish-ansi
+  repository: http://github.com/sharyanto/perl-Data-Unixish-ansi
+version: 0.01
