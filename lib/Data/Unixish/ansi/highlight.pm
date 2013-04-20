@@ -1,4 +1,4 @@
-package Data::Unixish::ansi::color;
+package Data::Unixish::ansi::highlight;
 
 use 5.010;
 use strict;
@@ -7,20 +7,45 @@ use warnings;
 #use Log::Any '$log';
 
 use Data::Unixish::Util qw(%common_args);
-use Term::ANSIColor qw();
+use Term::ANSIColor;
+use Text::ANSI::Util qw(ta_highlight_all);
 
 our $VERSION = '0.02'; # VERSION
 
 our %SPEC;
 
-$SPEC{color} = {
+$SPEC{highlight} = {
     v => 1.1,
-    summary => 'Colorize text with ANSI color codes',
+    summary => 'Highlight string/pattern with color',
     args => {
         %common_args,
+        string => {
+            summary => 'String to search',
+            schema  => 'str*',
+            cmdline_aliases => { s=>{} },
+            description => <<'_',
+
+Either this or `pattern` is required.
+
+_
+        },
+        pattern => {
+            summary => 'Regex pattern to search',
+            schema  => ['str*', is_re=>1],
+            cmdline_aliases => { p=>{} },
+            description => <<'_',
+
+Either this or `string` is required.
+
+_
+        },
+        ci => {
+            summary => 'Whether to search case-insensitively',
+            schema  => ['bool', default=>0],
+        },
         color => {
-            schema => 'str*',
             summary => 'The color to use for each item',
+            schema => ['str*', default => 'bold red'],
             description => <<'_',
 
 Example: `red`, `bold blue`, `yellow on_magenta`, `black on_bright_yellow`. See
@@ -29,23 +54,32 @@ Perl module Term::ANSIColor for more details.
 You can also supply raw ANSI code.
 
 _
-            req => 1,
         },
     },
     tags => [qw/text ansi/],
     "x.dux.default_format" => "text-simple",
 };
-sub color {
+sub highlight {
     my %args = @_;
     my ($in, $out) = ($args{in}, $args{out});
 
-    my $color = $args{color};
-    $color = Term::ANSIColor::color($color) unless $color =~ /\A\e/;
+    my $ci = $args{ci};
+    my $color = $args{color} // 'bold red';
+    $color = color($color) unless $color =~ /\A\e/;
+
+    my $re;
+    if (defined($args{string})) {
+        $re = $ci ? qr/\Q$args{string}\E/io : qr/\Q$args{string}\E/o;
+    } elsif (defined($args{pattern})) {
+        $re = $ci ? qr/$args{pattern}/io : qr/$args{pattern}/o;
+    } else {
+        return [400, "Please specify 'string' or 'pattern'"];
+    }
 
     while (my ($index, $item) = each @$in) {
         {
             last if !defined($item) || ref($item);
-            $item = $color . $item . "\e[0m";
+            $item = ta_highlight_all($item, $re, $color);
         }
         push @$out, $item;
     }
@@ -54,7 +88,7 @@ sub color {
 }
 
 1;
-# ABSTRACT: Colorize text with ANSI color codes
+# ABSTRACT: Highlight string/pattern with color
 
 
 
@@ -65,7 +99,7 @@ __END__
 
 =head1 NAME
 
-Data::Unixish::ansi::color - Colorize text with ANSI color codes
+Data::Unixish::ansi::highlight - Highlight string/pattern with color
 
 =head1 VERSION
 
@@ -76,12 +110,12 @@ version 0.02
 In Perl:
 
  use Data::Unixish::List qw(dux);
- $colorized = dux(['ansi::color' => {color=>"red"}], "red"); # "\e[31mred\e[0m"
+ $hilited = dux(['ansi::highlight' => {string=>"er"}], "merah"); # "m\e[31m\e[1mer\e[0mah"
 
 In command line:
 
- % echo -e "HELLO" | dux ansi::color --color red; # text will appear in red
- HELLO
+ % echo -e "merah" | dux ansi::highlight -s er; # 'er' will be highlighted
+ merah
 
 =head1 AUTHOR
 
@@ -101,15 +135,19 @@ the same terms as the Perl 5 programming language system itself.
 
 None are exported by default, but they are exportable.
 
-=head2 color(%args) -> [status, msg, result, meta]
+=head2 highlight(%args) -> [status, msg, result, meta]
 
-Colorize text with ANSI color codes.
+Highlight string/pattern with color.
 
 Arguments ('*' denotes required arguments):
 
 =over 4
 
-=item * B<color>* => I<str>
+=item * B<ci> => I<bool> (default: 0)
+
+Whether to search case-insensitively.
+
+=item * B<color> => I<str> (default: "bold red")
 
 The color to use for each item.
 
@@ -125,6 +163,18 @@ Input stream (e.g. array or filehandle).
 =item * B<out> => I<any>
 
 Output stream (e.g. array or filehandle).
+
+=item * B<pattern> => I<str>
+
+Regex pattern to search.
+
+Either this or C<string> is required.
+
+=item * B<string> => I<str>
+
+String to search.
+
+Either this or C<pattern> is required.
 
 =back
 

@@ -9,7 +9,7 @@ use warnings;
 use Data::Unixish::Util qw(%common_args);
 use Text::ANSI::Util qw(ta_strip);
 
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 our %SPEC;
 
@@ -53,14 +53,14 @@ Data::Unixish::ansi::strip - Strip ANSI codes (colors, etc) from text
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
 In Perl:
 
  use Data::Unixish::List qw(dux);
- $stripped = dux('strip', "\e[1mblah"); # "blah"
+ $stripped = dux('ansi::strip', "\e[1mblah"); # "blah"
 
 In command line:
 

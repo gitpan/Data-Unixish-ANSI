@@ -17,7 +17,7 @@ my %module_build_args = (
     "Steven Haryanto <stevenharyanto\@gmail.com>"
   ],
   "dist_name" => "Data-Unixish-ansi",
-  "dist_version" => "0.01",
+  "dist_version" => "0.02",
   "license" => "perl",
   "module_name" => "Data::Unixish::ansi",
   "recommends" => {},
@@ -25,7 +25,7 @@ my %module_build_args = (
   "requires" => {
     "Data::Unixish::Util" => "1.29",
     "Log::Any" => 0,
-    "Text::ANSI::Util" => 0,
+    "Text::ANSI::Util" => "0.08",
     "Unixish" => "v1.0.1",
     "perl" => "5.010001"
   },
