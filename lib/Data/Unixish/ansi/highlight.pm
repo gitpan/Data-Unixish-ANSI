@@ -10,7 +10,7 @@ use Data::Unixish::Util qw(%common_args);
 use Term::ANSIColor;
 use Text::ANSI::Util qw(ta_highlight_all);
 
-our $VERSION = '0.02'; # VERSION
+our $VERSION = '0.03'; # VERSION
 
 our %SPEC;
 
@@ -56,46 +56,63 @@ You can also supply raw ANSI code.
 _
         },
     },
-    tags => [qw/text ansi/],
+    tags => [qw/text ansi itemfunc/],
     "x.dux.default_format" => "text-simple",
 };
 sub highlight {
     my %args = @_;
     my ($in, $out) = ($args{in}, $args{out});
 
-    my $ci = $args{ci};
-    my $color = $args{color} // 'bold red';
-    $color = color($color) unless $color =~ /\A\e/;
+    return [400, "Please specify string or pattern"]
+        unless defined($args{pattern}) || defined($args{string});
 
-    my $re;
-    if (defined($args{string})) {
-        $re = $ci ? qr/\Q$args{string}\E/io : qr/\Q$args{string}\E/o;
-    } elsif (defined($args{pattern})) {
-        $re = $ci ? qr/$args{pattern}/io : qr/$args{pattern}/o;
-    } else {
-        return [400, "Please specify 'string' or 'pattern'"];
-    }
-
+    _highlight_begin(\%args);
     while (my ($index, $item) = each @$in) {
-        {
-            last if !defined($item) || ref($item);
-            $item = ta_highlight_all($item, $re, $color);
-        }
-        push @$out, $item;
+        push @$out, _highlight_item($item, \%args);
     }
 
     [200, "OK"];
 }
 
+sub _highlight_begin {
+    my $args = shift;
+
+    # abuse args to store state
+    my $color = $args->{color} // 'bold red';
+    $color = color($color) unless $color =~ /\A\e/;
+    $args->{_color} = $color;
+
+    my $re;
+    if (defined($args->{string})) {
+        $re = $args->{ci} ?
+            qr/\Q$args->{string}\E/io : qr/\Q$args->{string}\E/o;
+    } elsif (defined($args->{pattern})) {
+        $re = $args->{ci} ?
+            qr/$args->{pattern}/io : qr/$args->{pattern}/o;
+    } else {
+        die "Please specify 'string' or 'pattern'";
+    }
+    $args->{_re} = $re;
+}
+
+sub _highlight_item {
+    my ($item, $args) = @_;
+
+    {
+        last if !defined($item) || ref($item);
+        $item = ta_highlight_all($item, $args->{_re}, $args->{_color});
+    }
+    return $item;
+}
+
 1;
 # ABSTRACT: Highlight string/pattern with color
 
-
-
 __END__
+
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -103,37 +120,22 @@ Data::Unixish::ansi::highlight - Highlight string/pattern with color
 
 =head1 VERSION
 
-version 0.02
+version 0.03
 
 =head1 SYNOPSIS
 
 In Perl:
 
- use Data::Unixish::List qw(dux);
- $hilited = dux(['ansi::highlight' => {string=>"er"}], "merah"); # "m\e[31m\e[1mer\e[0mah"
+ use Data::Unixish qw(lduxl);
+ $hilited = lduxl(['ansi::highlight' => {string=>"er"}], "merah"); # "m\e[31m\e[1mer\e[0mah"
 
 In command line:
 
  % echo -e "merah" | dux ansi::highlight -s er; # 'er' will be highlighted
  merah
 
-=head1 AUTHOR
-
-Steven Haryanto <stevenharyanto@gmail.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2013 by Steven Haryanto.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
-
-=head1 DESCRIPTION
-
 =head1 FUNCTIONS
 
-
-None are exported by default, but they are exportable.
 
 =head2 highlight(%args) -> [status, msg, result, meta]
 
@@ -180,7 +182,40 @@ Either this or C<pattern> is required.
 
 Return value:
 
-Returns an enveloped result (an array). First element (status) is an integer containing HTTP status code (200 means OK, 4xx caller error, 5xx function error). Second element (msg) is a string containing error message, or 'OK' if status is 200. Third element (result) is optional, the actual result. Fourth element (meta) is called result metadata and is optional, a hash that contains extra information.
+Returns an enveloped result (an array).
+
+First element (status) is an integer containing HTTP status code
+(200 means OK, 4xx caller error, 5xx function error). Second element
+(msg) is a string containing error message, or 'OK' if status is
+200. Third element (result) is optional, the actual result. Fourth
+element (meta) is called result metadata and is optional, a hash
+that contains extra information.
+
+=head1 HOMEPAGE
+
+Please visit the project's homepage at L<https://metacpan.org/release/Data-Unixish-ansi>.
+
+=head1 SOURCE
+
+Source repository is at L<https://github.com/sharyanto/perl-Data-Unixish-ansi>.
+
+=head1 BUGS
+
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ansi>
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
+
+=head1 AUTHOR
+
+Steven Haryanto <stevenharyanto@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Steven Haryanto.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
-
