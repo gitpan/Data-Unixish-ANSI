@@ -4,12 +4,12 @@ use 5.010;
 use strict;
 use syntax 'each_on_array'; # to support perl < 5.12
 use warnings;
-#use Log::Any '$log';
+use Log::Any '$log';
 
 use Data::Unixish::Util qw(%common_args);
 use Term::ANSIColor qw();
 
-our $VERSION = '0.03'; # VERSION
+our $VERSION = '0.04'; # VERSION
 
 our %SPEC;
 
@@ -30,15 +30,18 @@ You can also supply raw ANSI code.
 
 _
             req => 1,
+            pos => 0,
+            cmdline_aliases => { c=>{} },
         },
     },
     tags => [qw/text ansi itemfunc/],
-    "x.dux.default_format" => "text-simple",
+    "x.perinci.cmdline.default_format" => "text-simple",
 };
 sub color {
     my %args = @_;
     my ($in, $out) = ($args{in}, $args{out});
 
+    _color_begin(\%args);
     while (my ($index, $item) = each @$in) {
         push @$out, _color_item($item, \%args);
     }
@@ -61,6 +64,7 @@ sub _color_item {
     {
         last if !defined($item) || ref($item);
         $item = $args->{_color} . $item . "\e[0m";
+        #$log->tracef("item=%s, color=%s", $item, $args->{_color});
     }
     return $item;
 }
@@ -80,7 +84,7 @@ Data::Unixish::ansi::color - Colorize text with ANSI color codes
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 

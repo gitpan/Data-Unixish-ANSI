@@ -10,7 +10,7 @@ use Data::Unixish::Util qw(%common_args);
 use Term::ANSIColor;
 use Text::ANSI::Util qw(ta_highlight_all);
 
-our $VERSION = '0.03'; # VERSION
+our $VERSION = '0.04'; # VERSION
 
 our %SPEC;
 
@@ -28,6 +28,7 @@ $SPEC{highlight} = {
 Either this or `pattern` is required.
 
 _
+            pos => 0,
         },
         pattern => {
             summary => 'Regex pattern to search',
@@ -42,6 +43,7 @@ _
         ci => {
             summary => 'Whether to search case-insensitively',
             schema  => ['bool', default=>0],
+            cmdline_aliases => { i=>{} },
         },
         color => {
             summary => 'The color to use for each item',
@@ -54,10 +56,11 @@ Perl module Term::ANSIColor for more details.
 You can also supply raw ANSI code.
 
 _
+            cmdline_aliases => { c=>{} },
         },
     },
     tags => [qw/text ansi itemfunc/],
-    "x.dux.default_format" => "text-simple",
+    "x.perinci.cmdline.default_format" => "text-simple",
 };
 sub highlight {
     my %args = @_;
@@ -120,7 +123,7 @@ Data::Unixish::ansi::highlight - Highlight string/pattern with color
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 

@@ -9,7 +9,7 @@ use warnings;
 use Data::Unixish::Util qw(%common_args);
 use Text::ANSI::Util qw(ta_strip);
 
-our $VERSION = '0.03'; # VERSION
+our $VERSION = '0.04'; # VERSION
 
 our %SPEC;
 
@@ -20,7 +20,7 @@ $SPEC{strip} = {
         %common_args,
     },
     tags => [qw/text ansi itemfunc/],
-    "x.dux.default_format" => "text-simple",
+    "x.perinci.cmdline.default_format" => "text-simple",
 };
 sub strip {
     my %args = @_;
@@ -57,7 +57,7 @@ Data::Unixish::ansi::strip - Strip ANSI codes (colors, etc) from text
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 
