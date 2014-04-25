@@ -1,4 +1,4 @@
-package Data::Unixish::ansi::strip;
+package Data::Unixish::ANSI::strip;
 
 use 5.010;
 use strict;
@@ -9,7 +9,7 @@ use warnings;
 use Data::Unixish::Util qw(%common_args);
 use Text::ANSI::Util qw(ta_strip);
 
-our $VERSION = '0.04'; # VERSION
+our $VERSION = '0.05'; # VERSION
 
 our %SPEC;
 
@@ -53,23 +53,27 @@ __END__
 
 =head1 NAME
 
-Data::Unixish::ansi::strip - Strip ANSI codes (colors, etc) from text
+Data::Unixish::ANSI::strip - Strip ANSI codes (colors, etc) from text
 
 =head1 VERSION
 
-version 0.04
+version 0.05
+
+=head1 RELEASE DATE
+
+2014-04-24
 
 =head1 SYNOPSIS
 
 In Perl:
 
  use Data::Unixish qw(lduxl);
- $stripped = lduxl('ansi::strip', "\e[1mblah"); # "blah"
+ $stripped = lduxl('ANSI::strip', "\e[1mblah"); # "blah"
 
 In command line:
 
  % echo -e "\e[1mHELLO";                   # text will appear in bold
- % echo -e "\e[1mHELLO" | dux ansi::strip; # text will appear normal
+ % echo -e "\e[1mHELLO" | dux ANSI::strip; # text will appear normal
  HELLO
 
 =head1 FUNCTIONS
@@ -106,7 +110,7 @@ that contains extra information.
 
 =head1 HOMEPAGE
 
-Please visit the project's homepage at L<https://metacpan.org/release/Data-Unixish-ansi>.
+Please visit the project's homepage at L<https://metacpan.org/release/Data-Unixish-ANSI>.
 
 =head1 SOURCE
 
@@ -114,7 +118,7 @@ Source repository is at L<https://github.com/sharyanto/perl-Data-Unixish-ansi>.
 
 =head1 BUGS
 
-Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ansi>
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ANSI>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

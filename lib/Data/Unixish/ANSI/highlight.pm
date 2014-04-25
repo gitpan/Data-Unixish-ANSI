@@ -1,4 +1,4 @@
-package Data::Unixish::ansi::highlight;
+package Data::Unixish::ANSI::highlight;
 
 use 5.010;
 use strict;
@@ -10,7 +10,7 @@ use Data::Unixish::Util qw(%common_args);
 use Term::ANSIColor;
 use Text::ANSI::Util qw(ta_highlight_all);
 
-our $VERSION = '0.04'; # VERSION
+our $VERSION = '0.05'; # VERSION
 
 our %SPEC;
 
@@ -119,22 +119,26 @@ __END__
 
 =head1 NAME
 
-Data::Unixish::ansi::highlight - Highlight string/pattern with color
+Data::Unixish::ANSI::highlight - Highlight string/pattern with color
 
 =head1 VERSION
 
-version 0.04
+version 0.05
+
+=head1 RELEASE DATE
+
+2014-04-24
 
 =head1 SYNOPSIS
 
 In Perl:
 
  use Data::Unixish qw(lduxl);
- $hilited = lduxl(['ansi::highlight' => {string=>"er"}], "merah"); # "m\e[31m\e[1mer\e[0mah"
+ $hilited = lduxl(['ANSI::highlight' => {string=>"er"}], "merah"); # "m\e[31m\e[1mer\e[0mah"
 
 In command line:
 
- % echo -e "merah" | dux ansi::highlight -s er; # 'er' will be highlighted
+ % echo -e "merah" | dux ANSI::highlight -s er; # 'er' will be highlighted
  merah
 
 =head1 FUNCTIONS
@@ -196,7 +200,7 @@ that contains extra information.
 
 =head1 HOMEPAGE
 
-Please visit the project's homepage at L<https://metacpan.org/release/Data-Unixish-ansi>.
+Please visit the project's homepage at L<https://metacpan.org/release/Data-Unixish-ANSI>.
 
 =head1 SOURCE
 
@@ -204,7 +208,7 @@ Source repository is at L<https://github.com/sharyanto/perl-Data-Unixish-ansi>.
 
 =head1 BUGS
 
-Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ansi>
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ANSI>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

@@ -1,4 +1,4 @@
-package Data::Unixish::ansi::color;
+package Data::Unixish::ANSI::color;
 
 use 5.010;
 use strict;
@@ -9,7 +9,7 @@ use Log::Any '$log';
 use Data::Unixish::Util qw(%common_args);
 use Term::ANSIColor qw();
 
-our $VERSION = '0.04'; # VERSION
+our $VERSION = '0.05'; # VERSION
 
 our %SPEC;
 
@@ -80,22 +80,26 @@ __END__
 
 =head1 NAME
 
-Data::Unixish::ansi::color - Colorize text with ANSI color codes
+Data::Unixish::ANSI::color - Colorize text with ANSI color codes
 
 =head1 VERSION
 
-version 0.04
+version 0.05
+
+=head1 RELEASE DATE
+
+2014-04-24
 
 =head1 SYNOPSIS
 
 In Perl:
 
  use Data::Unixish qw(lduxl);
- $colorized = lduxl(['ansi::color' => {color=>"red"}], "red"); # "\e[31mred\e[0m"
+ $colorized = lduxl(['ANSI::color' => {color=>"red"}], "red"); # "\e[31mred\e[0m"
 
 In command line:
 
- % echo -e "HELLO" | dux ansi::color --color red; # text will appear in red
+ % echo -e "HELLO" | dux ANSI::color --color red; # text will appear in red
  HELLO
 
 =head1 FUNCTIONS
@@ -141,7 +145,7 @@ that contains extra information.
 
 =head1 HOMEPAGE
 
-Please visit the project's homepage at L<https://metacpan.org/release/Data-Unixish-ansi>.
+Please visit the project's homepage at L<https://metacpan.org/release/Data-Unixish-ANSI>.
 
 =head1 SOURCE
 
@@ -149,7 +153,7 @@ Source repository is at L<https://github.com/sharyanto/perl-Data-Unixish-ansi>.
 
 =head1 BUGS
 
-Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ansi>
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ANSI>
 
 When submitting a bug or request, please include a test-file or a
 patch to an existing test-file that illustrates the bug or desired

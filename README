@@ -1,9 +1,12 @@
 NAME
-    Data::Unixish::ansi - dux functions related to text containing ANSI
+    Data::Unixish::ANSI - dux functions related to text containing ANSI
     codes
 
 VERSION
-    version 0.04
+    version 0.05
+
+RELEASE DATE
+    2014-04-24
 
 SYNOPSIS
 DESCRIPTION
@@ -20,7 +23,7 @@ SEE ALSO
 
 HOMEPAGE
     Please visit the project's homepage at
-    <https://metacpan.org/release/Data-Unixish-ansi>.
+    <https://metacpan.org/release/Data-Unixish-ANSI>.
 
 SOURCE
     Source repository is at
@@ -28,7 +31,7 @@ SOURCE
 
 BUGS
     Please report any bugs or feature requests on the bugtracker website
-    <https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ansi>
+    <https://rt.cpan.org/Public/Dist/Display.html?Name=Data-Unixish-ANSI>
 
     When submitting a bug or request, please include a test-file or a patch
     to an existing test-file that illustrates the bug or desired feature.
